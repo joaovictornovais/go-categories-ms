@@ -1,0 +1,35 @@
+POST http://localhost:8080/categories
+Content-Type: application/json
+
+{
+    "name": "Golang"
+}
+
+###
+GET http://localhost:8080/categories
+
+###
+GET http://localhost:8080/categories
+
+{
+    "name": "Golang"
+}
+
+###
+PUT http://localhost:8080/categories
+Content-Type: application/json
+
+{
+    "currentName": "Golang",
+    "newName": "Java"
+}
+
+###
+DELETE http://localhost:8080/categories
+Content-Type: application/json
+
+{
+    "name": "Java"
+}
+
+
