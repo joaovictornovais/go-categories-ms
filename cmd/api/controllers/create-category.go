@@ -12,6 +12,17 @@ type createCategoryInput struct {
 	Name string `json:"name" binding:"required"`
 }
 
+// @BasePath categories
+
+// @Summary Create category
+// @Schemes
+// @Description Persist category on database
+// @Tags Category
+// @Accept json
+// @Produce json
+// @Param request body createCategoryInput true "Category data"
+// @Success 201 {object} entities.Category
+// @Router /categories [post]
 func CreateCategory(ctx *gin.Context, repository repositories.ICategoryRepository) {
 	var body createCategoryInput
 
@@ -24,7 +35,7 @@ func CreateCategory(ctx *gin.Context, repository repositories.ICategoryRepositor
 	}
 	useCase := use_cases.NewCreateCategoryUseCase(repository)
 
-	err := useCase.Execute(body.Name)
+	category, err := useCase.Execute(body.Name)
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -35,6 +46,7 @@ func CreateCategory(ctx *gin.Context, repository repositories.ICategoryRepositor
 	}
 
 	ctx.JSON(http.StatusCreated, gin.H{
-		"success": true,
+		"success":  true,
+		"category": category,
 	})
 }

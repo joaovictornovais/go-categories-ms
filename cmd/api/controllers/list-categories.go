@@ -12,6 +12,16 @@ type listCategoriesInput struct {
 	Name string `json:"name"`
 }
 
+// @Summary Get categories
+// @Schemes http
+// @Description Get categories from database. If 'name' is provided in body, returns a single category. If not, returns all.
+// @Tags Category
+// @Accept json
+// @Produce json
+// @Param request body listCategoriesInput false "Category filter"
+// @Success 200 {array} entities.Category
+// @Failure 404 {object} string "Category not found"
+// @Router /categories [get]
 func ListCategories(ctx *gin.Context, repository repositories.ICategoryRepository) {
 	var body listCategoriesInput
 

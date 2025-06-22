@@ -15,20 +15,20 @@ func NewCreateCategoryUseCase(repository repositories.ICategoryRepository) *crea
 	return &createCategoryUseCase{repository}
 }
 
-func (u *createCategoryUseCase) Execute(name string) error {
+func (u *createCategoryUseCase) Execute(name string) (*entities.Category, error) {
 	category, err := entities.NewCategory(name)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	log.Println(category)
 	err = u.repository.Save(category)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return category, nil
 
 }

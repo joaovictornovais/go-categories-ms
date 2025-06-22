@@ -1,0 +1,144 @@
+definitions:
+  controllers.createCategoryInput:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  controllers.deleteCategoryInput:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  controllers.listCategoriesInput:
+    properties:
+      name:
+        type: string
+    type: object
+  controllers.updateCategoryInput:
+    properties:
+      currentName:
+        type: string
+      newName:
+        type: string
+    required:
+    - currentName
+    - newName
+    type: object
+  entities.Category:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /categories:
+    delete:
+      consumes:
+      - application/json
+      description: Delete category from database
+      parameters:
+      - description: Category data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.deleteCategoryInput'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      summary: Delete category
+      tags:
+      - Category
+    get:
+      consumes:
+      - application/json
+      description: Get categories from database. If 'name' is provided in body, returns
+        a single category. If not, returns all.
+      parameters:
+      - description: Category filter
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/controllers.listCategoriesInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Category'
+            type: array
+        "404":
+          description: Category not found
+          schema:
+            type: string
+      summary: Get categories
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: Persist category on database
+      parameters:
+      - description: Category data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.createCategoryInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entities.Category'
+      summary: Create category
+      tags:
+      - Category
+    put:
+      consumes:
+      - application/json
+      description: Update category from database. If category 'currentName' provided
+        in body exists and 'newName' don't, update category name with Success. If
+        not, throws error.
+      parameters:
+      - description: Category new data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.updateCategoryInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Category'
+            type: array
+        "404":
+          description: Category not found
+          schema:
+            type: string
+      summary: Update category
+      tags:
+      - Category
+swagger: "2.0"
